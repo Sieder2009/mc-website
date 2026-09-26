@@ -1,6 +1,10 @@
 # Dependencies
 node_modules
 
+# Someone else's reference repo cloned in for design/tech research —
+# its own separate git history, never part of this one.
+/LandingPage
+
 # Raw/unprocessed screenshot dumps — the curated, compressed WebP versions
 # that actually ship live in public/assets/screenshots/ instead.
 /screnshots
@@ -30,3 +34,6 @@ lerna-debug.log*
 *.njsproj
 *.sln
 *.sw?
+
+# A Minecraft world save that lives next to the site (about 11 GB) - never commit it.
+/#2/

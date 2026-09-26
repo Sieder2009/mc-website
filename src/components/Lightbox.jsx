@@ -1,4 +1,5 @@
 import { useEffect, useRef } from "react";
+import { useLenis } from "./SmoothScrollProvider.jsx";
 
 function getFocusable(container) {
   return Array.from(
@@ -11,11 +12,13 @@ function getFocusable(container) {
 export default function Lightbox({ state, onClose }) {
   const dialogRef = useRef(null);
   const closeBtnRef = useRef(null);
+  const lenisRef = useLenis();
 
   useEffect(() => {
     if (!state) return;
     closeBtnRef.current?.focus();
     document.body.style.overflow = "hidden";
+    lenisRef?.current?.stop();
 
     function onKeyDown(e) {
       if (e.key === "Escape") {
@@ -40,8 +43,9 @@ export default function Lightbox({ state, onClose }) {
     return () => {
       document.removeEventListener("keydown", onKeyDown);
       document.body.style.overflow = "";
+      lenisRef?.current?.start();
     };
-  }, [state, onClose]);
+  }, [state, onClose, lenisRef]);
 
   if (!state) return null;
 

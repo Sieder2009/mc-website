@@ -1,6 +1,5 @@
 import { useEffect } from "react";
 import { content } from "./data/content.js";
-import Header from "./components/Header.jsx";
 import Hero from "./components/Hero.jsx";
 import WorldSection from "./components/WorldSection.jsx";
 import StatsSection from "./components/StatsSection.jsx";
@@ -10,7 +9,21 @@ import ContactSection from "./components/ContactSection.jsx";
 import Footer from "./components/Footer.jsx";
 import SectionDots from "./components/SectionDots.jsx";
 import Lightbox from "./components/Lightbox.jsx";
+import SmoothScrollProvider from "./components/SmoothScrollProvider.jsx";
+import ScrollProgressBar from "./components/ScrollProgressBar.jsx";
+import CursorGlow from "./components/CursorGlow.jsx";
+import IntroLoader from "./components/IntroLoader.jsx";
+import WorldBackdrop from "./components/WorldBackdrop.jsx";
+import { wantsWorld } from "./lib/world.js";
 import { useLightbox } from "./hooks/useLightbox.js";
+
+// An empty stretch of page: the content sheets part and the fixed 3D world
+// (path, blossom trees, drifting petals) shows through unobstructed.
+function SceneWindow({ size }) {
+  if (!wantsWorld) return null;
+  const cls = size === "end" ? "scene-window--tall scene-window--end" : size === "tall" ? "scene-window--tall" : "";
+  return <div className={`scene-window ${cls}`} aria-hidden="true" />;
+}
 
 export default function App() {
   const lightbox = useLightbox();
@@ -37,16 +50,22 @@ export default function App() {
   ];
 
   return (
-    <>
+    <SmoothScrollProvider>
       <a className="skip-link" href="#main">
         Zum Inhalt springen
       </a>
 
-      <Header name={content.name} serverAddress={serverAddress} />
+      <WorldBackdrop />
+      <IntroLoader name={content.name} />
+      <ScrollProgressBar />
+      <CursorGlow />
+
       <SectionDots items={dotItems} />
 
       <main id="main">
         <Hero content={content} />
+
+        <SceneWindow size="tall" />
 
         <WorldSection
           world={content.world}
@@ -56,18 +75,31 @@ export default function App() {
           onOpenLightbox={lightbox.open}
         />
 
+        <SceneWindow />
+
         <StatsSection stats={content.stats} level={statistikLevel} />
+
+        <SceneWindow />
 
         <ModrinthSection username={content.modrinthUsername} level={modrinthLevel} />
 
-        {serverAddress && <ServerSection address={serverAddress} level={serverLevel} />}
+        {serverAddress && (
+          <>
+            <SceneWindow />
+            <ServerSection address={serverAddress} level={serverLevel} />
+          </>
+        )}
+
+        <SceneWindow />
 
         <ContactSection contact={content.contact} level={kontaktLevel} />
+
+        <SceneWindow size="end" />
       </main>
 
       <Footer links={content.links} name={content.name} />
 
       <Lightbox state={lightbox.state} onClose={lightbox.close} />
-    </>
+    </SmoothScrollProvider>
   );
 }

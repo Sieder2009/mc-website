@@ -7,7 +7,7 @@
 
 export const content = {
   // --- Allgemein -----------------------------------------------------------
-  name: "Sieder",
+  name: "affenmal",
   slogan: "Meine Minecraft-Welt, meine Bauwerke, meine Projekte.",
 
   links: {

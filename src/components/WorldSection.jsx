@@ -1,10 +1,33 @@
+import { useEffect, useRef } from "react";
 import SectionHeading from "./SectionHeading.jsx";
 import Timeline from "./Timeline.jsx";
 import Gallery from "./Gallery.jsx";
 import { useReveal } from "../hooks/useReveal.js";
+import { gsap, ScrollTrigger, prefersReducedMotion } from "../lib/animation.js";
 
 export default function WorldSection({ world, worldHistory, builds, level, onOpenLightbox }) {
   const [ref, visible] = useReveal();
+  const metaRef = useRef(null);
+
+  useEffect(() => {
+    const el = metaRef.current;
+    if (!el || prefersReducedMotion) return;
+    const ctx = gsap.context(() => {
+      ScrollTrigger.batch(".world-meta > div", {
+        start: "top 90%",
+        onEnter: (items) =>
+          gsap.from(items, {
+            autoAlpha: 0,
+            y: 18,
+            duration: 0.5,
+            stagger: 0.06,
+            ease: "power3.out",
+            overwrite: true,
+          }),
+      });
+    }, el);
+    return () => ctx.revert();
+  }, []);
 
   const meta = [
     ["Welt", world.name || "—"],
@@ -29,7 +52,7 @@ export default function WorldSection({ world, worldHistory, builds, level, onOpe
           Die Welt
         </SectionHeading>
 
-        <dl className="world-meta">
+        <dl className="world-meta" ref={metaRef}>
           {meta.map(([label, value]) => (
             <div key={label}>
               <dt>{label}</dt>

@@ -8,7 +8,7 @@ export default function SectionDots({ items }) {
 
   return (
     <nav className="section-dots" aria-label="Abschnitte">
-      {items.map((item) => {
+      {items.map((item, index) => {
         const id = item.href.slice(1);
         return (
           <a
@@ -16,7 +16,9 @@ export default function SectionDots({ items }) {
             href={item.href}
             className={`section-dots__dot ${activeId === id ? "is-active" : ""}`}
             aria-label={item.label}
-          />
+          >
+            {String(index).padStart(2, "0")}
+          </a>
         );
       })}
     </nav>

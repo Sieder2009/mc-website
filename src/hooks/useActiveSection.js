@@ -18,7 +18,10 @@ export function useActiveSection(ids) {
           if (entry.isIntersecting) setActiveId(entry.target.id);
         });
       },
-      { threshold: 0.5 }
+      // a thin band across the middle of the viewport: the section crossing it is
+      // the current one, however tall it is (an area threshold can never be met by
+      // a section taller than two screens)
+      { rootMargin: "-45% 0px -45% 0px", threshold: 0 }
     );
     targets.forEach((t) => observer.observe(t));
     return () => observer.disconnect();
