@@ -272,12 +272,16 @@ function ReadySignal({ onReady }) {
 function AdaptiveQuality({ dpr, setDpr, min, top, onGiveUp }) {
   const stat = useRef({ ema: 16, slow: 0, fast: 0, hopeless: 0, age: 0, banned: Infinity, bannedAt: 0, strikes: 0 });
 
-  useFrame((_, delta) => {
+  useFrame((_, rawDelta) => {
     const s = stat.current;
     if (document.documentElement.dataset.introDone !== "true") return;
+    // A backgrounded tab returning fires one frame with a multi-second delta
+    // (the time it was away, not a slow frame) — cap it everywhere here so a
+    // brief tab switch can never read as "hopelessly slow" and kill the world.
+    const delta = Math.min(rawDelta, 0.25);
     s.age += delta;
     if (s.age < 2.5) return;
-    const ms = Math.min(delta, 0.25) * 1000;
+    const ms = delta * 1000;
     s.ema += (ms - s.ema) * 0.05;
 
     if (s.ema > 26) {
