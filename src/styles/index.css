@@ -795,12 +795,19 @@ h3::before {
   font-weight: 800;
 }
 
-/* Gallery */
+/* Gallery — a fixed two per row (one on phones), so the screenshots line up
+   in complete rows instead of auto-fill leaving a gap in the last one. */
 .gallery {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: var(--space-3);
   counter-reset: build;
+}
+
+@media (max-width: 640px) {
+  .gallery {
+    grid-template-columns: minmax(0, 1fr);
+  }
 }
 
 .gallery__card {
@@ -865,8 +872,12 @@ h3::before {
   opacity: 0.6;
 }
 
+/* column flex: the coordinates sit on the same baseline in every card of a row */
 .gallery__body {
   padding: var(--space-2);
+  display: flex;
+  flex-direction: column;
+  flex: 1;
 }
 
 .gallery__body h4 {
@@ -884,8 +895,9 @@ h3::before {
 }
 
 .gallery__coords {
-  display: inline-block;
-  margin-top: 0.5em;
+  align-self: flex-start;
+  margin-top: auto;
+  padding-top: 0.5em;
   font-size: 0.78rem;
   color: var(--c-red-dark);
   font-weight: 700;
@@ -931,6 +943,49 @@ h3::before {
 .modrinth-status {
   min-height: 1.4em;
   font-weight: 600;
+}
+
+.modrinth-profile {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin: 0 0 var(--space-2);
+  padding: 0.35rem 1.1rem 0.35rem 0.35rem;
+  background: var(--c-panel);
+  border: var(--line-soft);
+  border-radius: 999px;
+  color: var(--c-ink);
+  text-decoration: none;
+  transition: transform var(--transition-fast), border-color var(--transition-fast);
+}
+
+.modrinth-profile:hover,
+.modrinth-profile:focus-visible {
+  transform: translateY(-2px);
+  border-color: var(--c-ink);
+}
+
+.modrinth-profile__avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 1.5px solid var(--c-ink);
+  background: var(--c-bg-alt);
+  object-fit: cover;
+}
+
+.modrinth-profile__name {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 0.95rem;
+}
+
+.modrinth-profile__link {
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--c-red-dark);
 }
 
 .modrinth-grid {

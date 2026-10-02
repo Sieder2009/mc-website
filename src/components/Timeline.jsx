@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react";
-import { gsap, ScrollTrigger, prefersReducedMotion } from "../lib/animation.js";
+import { gsap, batchReveal, prefersReducedMotion } from "../lib/animation.js";
 
 export default function Timeline({ entries }) {
   const ref = useRef(null);
@@ -21,18 +21,7 @@ export default function Timeline({ entries }) {
         }
       );
 
-      ScrollTrigger.batch(".timeline li", {
-        start: "top 88%",
-        onEnter: (items) =>
-          gsap.from(items, {
-            autoAlpha: 0,
-            x: -16,
-            duration: 0.55,
-            stagger: 0.12,
-            ease: "power3.out",
-            overwrite: true,
-          }),
-      });
+      batchReveal(".timeline li", { x: -16 }, { stagger: 0.12 });
     }, el);
 
     return () => ctx.revert();

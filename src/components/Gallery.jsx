@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react";
-import { gsap, ScrollTrigger, prefersReducedMotion } from "../lib/animation.js";
+import { gsap, batchReveal, prefersReducedMotion } from "../lib/animation.js";
 
 export default function Gallery({ builds, onOpen }) {
   const gridRef = useRef(null);
@@ -9,18 +9,7 @@ export default function Gallery({ builds, onOpen }) {
     if (!grid || prefersReducedMotion) return;
 
     const ctx = gsap.context(() => {
-      ScrollTrigger.batch(".gallery__card", {
-        start: "top 88%",
-        onEnter: (cards) =>
-          gsap.from(cards, {
-            autoAlpha: 0,
-            y: 32,
-            duration: 0.6,
-            stagger: 0.08,
-            ease: "power3.out",
-            overwrite: true,
-          }),
-      });
+      batchReveal(".gallery__card", { y: 32 }, { duration: 0.6, stagger: 0.06 });
 
       // each build photo drifts slower than the page scroll — the extra
       // 16%/side headroom on .gallery__media img (see index.css) is what

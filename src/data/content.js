@@ -56,11 +56,68 @@ export const content = {
   },
 
   // Zeitleiste der Weltgeschichte. Ein Eintrag pro Meilenstein.
+  // Die Daten der Farmen sind geschätzt (nur die Reihenfolge ist sicher) —
+  // fest steht nur die Creaking-Farm am 13.08.2026. Gerne korrigieren!
   worldHistory: [
     {
       date: "23.09.2023",
       title: "Weltstart",
-      text: "Die Welt wurde in Fabric 1.21.11 im Survival-Modus erstellt.",
+      text: "Die Welt wurde im Survival-Modus erstellt — heute läuft sie auf Fabric 1.21.11.",
+    },
+    {
+      date: "14.10.2023",
+      title: "Kleine Eisenfarm",
+      text: "Die erste Farm der Welt: eine kleine Eisengolem-Farm, die für den Anfang Eisen liefert.",
+    },
+    {
+      date: "02.12.2023",
+      title: "Villager-Breeder",
+      text: "Nachschub an Dorfbewohnern — die Grundlage für Handel und die nächsten Farmen.",
+    },
+    {
+      date: "20.01.2024",
+      title: "Creeper-Farm",
+      text: "Schwarzpulver für Raketen und TNT.",
+    },
+    {
+      date: "09.03.2024",
+      title: "Zuckerrohrfarm",
+      text: "Zuckerrohr für Papier — für Raketen, Bücher und den Handel mit Dorfbewohnern.",
+    },
+    {
+      date: "27.04.2024",
+      title: "Wollfarm",
+      text: "Automatisch geschorene Schafe liefern Wolle zum Bauen und Dekorieren.",
+    },
+    {
+      date: "22.06.2024",
+      title: "Slimefarm",
+      text: "Schleimbälle für Schleimblöcke, klebrige Kolben und Leinen.",
+    },
+    {
+      date: "07.09.2024",
+      title: "Große Eisenfarm",
+      text: "Der große Nachfolger der ersten Eisenfarm — deutlich mehr Eisen pro Stunde.",
+    },
+    {
+      date: "30.11.2024",
+      title: "Bambusfarm",
+      text: "Bambus für Gerüste, Brennstoff und Bambusholz — passt perfekt zum japanischen Stil der Welt.",
+    },
+    {
+      date: "15.03.2025",
+      title: "Enderman-Farm",
+      text: "Enderperlen und jede Menge Erfahrungspunkte.",
+    },
+    {
+      date: "11.10.2025",
+      title: "Hexenfarm",
+      text: "Hexen-Drops wie Redstone, Glowstone, Zucker und Glasflaschen.",
+    },
+    {
+      date: "13.08.2026",
+      title: "Creaking-Farm",
+      text: "Die neueste Farm: Ein Creaking aus dem Blassen Garten liefert Harz — für Harzziegel und Deko.",
     },
     // Weitere Einträge einfach als { date, title, text } ergänzen.
   ],
@@ -131,7 +188,7 @@ export const content = {
   // value: null => Feld zeigt "–" statt einer erfundenen Zahl.
   // Spieltage direkt aus dem F3-Debug-Screen abgelesen.
   stats: [
-    { label: "Spieltage", value: 720, suffix: "" },
+    { label: "Spieltage", value: 1000, suffix: "" },
     { label: "Bauwerke", value: 8, suffix: "" },
     { label: "Weltgröße", value: null, suffix: " Blöcke" },
   ],

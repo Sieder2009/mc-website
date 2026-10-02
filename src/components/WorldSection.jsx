@@ -3,7 +3,7 @@ import SectionHeading from "./SectionHeading.jsx";
 import Timeline from "./Timeline.jsx";
 import Gallery from "./Gallery.jsx";
 import { useReveal } from "../hooks/useReveal.js";
-import { gsap, ScrollTrigger, prefersReducedMotion } from "../lib/animation.js";
+import { gsap, batchReveal, prefersReducedMotion } from "../lib/animation.js";
 
 export default function WorldSection({ world, worldHistory, builds, level, onOpenLightbox }) {
   const [ref, visible] = useReveal();
@@ -13,18 +13,7 @@ export default function WorldSection({ world, worldHistory, builds, level, onOpe
     const el = metaRef.current;
     if (!el || prefersReducedMotion) return;
     const ctx = gsap.context(() => {
-      ScrollTrigger.batch(".world-meta > div", {
-        start: "top 90%",
-        onEnter: (items) =>
-          gsap.from(items, {
-            autoAlpha: 0,
-            y: 18,
-            duration: 0.5,
-            stagger: 0.06,
-            ease: "power3.out",
-            overwrite: true,
-          }),
-      });
+      batchReveal(".world-meta > div", { y: 18 }, { start: "top 90%", duration: 0.5, stagger: 0.06 });
     }, el);
     return () => ctx.revert();
   }, []);

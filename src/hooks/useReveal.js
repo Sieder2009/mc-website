@@ -18,6 +18,10 @@ export function useReveal() {
     const el = ref.current;
     if (!el) return;
 
+    // Not a threshold share of the section's own height: a section taller
+    // than ~6 screens (the long timeline + gallery on a phone) could never
+    // show 15% of itself at once and would stay invisible. Instead it counts
+    // as soon as any part of it is in the upper 85% of the viewport.
     const observer = new IntersectionObserver(
       ([entry], obs) => {
         if (entry.isIntersecting) {
@@ -25,7 +29,7 @@ export function useReveal() {
           obs.unobserve(entry.target);
         }
       },
-      { threshold: 0.15 }
+      { rootMargin: "0px 0px -15% 0px" }
     );
     observer.observe(el);
     return () => observer.disconnect();

@@ -14,6 +14,7 @@ import ScrollProgressBar from "./components/ScrollProgressBar.jsx";
 import CursorGlow from "./components/CursorGlow.jsx";
 import IntroLoader from "./components/IntroLoader.jsx";
 import WorldBackdrop from "./components/WorldBackdrop.jsx";
+import LiveFavicon from "./components/LiveFavicon.jsx";
 import { wantsWorld } from "./lib/world.js";
 import { useLightbox } from "./hooks/useLightbox.js";
 
@@ -55,6 +56,7 @@ export default function App() {
         Zum Inhalt springen
       </a>
 
+      <LiveFavicon minecraftName={content.minecraftName} />
       <WorldBackdrop />
       <IntroLoader name={content.name} />
       <ScrollProgressBar />

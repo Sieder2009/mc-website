@@ -1,11 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 import { SkinViewer as SkinView3D } from "skinview3d";
+import { skinUrlFor } from "../lib/skin.js";
 
-const DEFAULT_SKIN_URL = "https://mc-heads.net/skin/MHF_Steve";
-
-function skinUrlFor(minecraftName) {
-  return `https://mc-heads.net/skin/${encodeURIComponent(minecraftName)}`;
-}
+const DEFAULT_SKIN_URL = skinUrlFor("MHF_Steve");
 
 export default function SkinViewer({ minecraftName }) {
   const canvasRef = useRef(null);
@@ -19,13 +16,15 @@ export default function SkinViewer({ minecraftName }) {
     const canvas = canvasRef.current;
     if (!canvas) return;
 
+    // No skin up front: skinview3d applies whichever image finishes loading
+    // last, so a default Steve loading next to the real skin could land on
+    // top of it. Steve is only fetched when there is no name or it fails.
     let viewer;
     try {
       viewer = new SkinView3D({
         canvas,
         width: 340,
         height: 460,
-        skin: DEFAULT_SKIN_URL,
       });
     } catch {
       setAvailable(false);
@@ -33,6 +32,10 @@ export default function SkinViewer({ minecraftName }) {
       setAriaLabel("3D-Vorschau des Minecraft-Skins nicht verfügbar");
       return;
     }
+
+    // Turning the model with the mouse stays; zooming is off — and with it,
+    // the mouse wheel over the skin scrolls the page instead of being eaten.
+    viewer.controls.enableZoom = false;
 
     const motionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
     viewer.autoRotateSpeed = 0.6;
@@ -50,6 +53,7 @@ export default function SkinViewer({ minecraftName }) {
     if (!name) {
       setStatus("Standard-Skin wird gezeigt — mein Minecraft-Name folgt.");
       setAriaLabel("Standard-Minecraft-Skin (Platzhalter)");
+      viewer.loadSkin(DEFAULT_SKIN_URL).catch(() => {});
     } else {
       setStatus(`Lade Skin von ${name} …`);
       setAriaLabel(`Lade Skin von ${name}`);

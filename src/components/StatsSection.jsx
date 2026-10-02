@@ -2,7 +2,7 @@ import { useEffect, useRef } from "react";
 import SectionHeading from "./SectionHeading.jsx";
 import StatCard from "./StatCard.jsx";
 import { useReveal } from "../hooks/useReveal.js";
-import { gsap, ScrollTrigger, prefersReducedMotion } from "../lib/animation.js";
+import { gsap, batchReveal, prefersReducedMotion } from "../lib/animation.js";
 
 export default function StatsSection({ stats, level }) {
   const [ref, visible] = useReveal();
@@ -12,19 +12,7 @@ export default function StatsSection({ stats, level }) {
     const el = gridRef.current;
     if (!el || prefersReducedMotion) return;
     const ctx = gsap.context(() => {
-      ScrollTrigger.batch(".stat-card", {
-        start: "top 88%",
-        onEnter: (cards) =>
-          gsap.from(cards, {
-            autoAlpha: 0,
-            scale: 0.92,
-            y: 20,
-            duration: 0.5,
-            stagger: 0.09,
-            ease: "back.out(1.6)",
-            overwrite: true,
-          }),
-      });
+      batchReveal(".stat-card", { scale: 0.92, y: 20 }, { duration: 0.5, stagger: 0.09, ease: "back.out(1.6)" });
     }, el);
     return () => ctx.revert();
   }, []);
